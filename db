@@ -1,0 +1,39 @@
+#!/usr/bin/node
+require('dotenv').config();
+const [ ,, ...args] = process.argv,
+    { spawn } = require('child_process'),
+    chalk = require('chalk'),
+    config = require('./src/config/database');
+
+const options = ['-u', config.user];
+if (config.password) {
+    options.push(`-p${config.password}`);
+}
+if (config.host) {
+    options.push('-h', config.host);
+}
+if (config.port) {
+    options.push('-P', config.port);
+}
+
+options.push(config.database);
+
+switch(args[0]) {
+    case 'connect':
+        break;
+    case 'tables':
+        options.push('-e', 'SHOW TABLES');
+        break;
+    case 'explain':
+        options.push('-e', `explain ${args[1]}`);
+        break;
+    case 'select':
+        options.push('-e', `SELECT * FROM ${args[1]} LIMIT ${args[2] || 100}`);
+        break;
+}
+
+spawn(config.client || 'mysql', options, {
+    stdio: 'inherit'
+}).on('close', () => {
+    console.log(chalk.green('Closed'));
+})
