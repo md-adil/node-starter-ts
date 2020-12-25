@@ -24,7 +24,7 @@
         "@types/jsonwebtoken": "^8.3.4",
         "@types/mosca": "^2.8.1",
         "@types/mqtt": "^2.5.0",
-        "bcrypt": "^3.0.6",
+        "bcrypt": "^5.0.0",
         "bluebird": "^3.5.5",
         "chalk": "^2.4.2",
         "concurrently": "^5.0.0",
